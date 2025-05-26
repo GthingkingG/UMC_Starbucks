@@ -11,4 +11,5 @@ struct SignupModel {
     var nickName: String
     var emailAddress: String
     var emailPassword: String
+
 }

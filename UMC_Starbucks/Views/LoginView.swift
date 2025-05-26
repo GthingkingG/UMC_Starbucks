@@ -17,20 +17,22 @@ struct LoginView: View {
     }
     
     var body: some View {
-        
-        VStack {
-            titleView
-            
-            Spacer()
-            
-            loginView
-            
-            Spacer()
-            
-            socialLoginView
+        NavigationStack {
+            VStack {
+                titleView
+                
+                Spacer()
+                
+                loginView
+                
+                Spacer()
+                
+                socialLoginView
+            }
+            .frame(height: 751)
+            .safeAreaPadding(.horizontal, 19)
         }
-        .frame(height: 751)
-        .safeAreaPadding(.horizontal, 19)
+        
     }
     
     private var titleView: some View {
@@ -74,10 +76,15 @@ struct LoginView: View {
     
     private var socialLoginView: some View {
         VStack(spacing: 19) {
-            Text("이메일로 회원가입하기")
-                .font(.mainTextRegular12)
-                .foregroundStyle(Color.gray04)
-                .underline()
+            Button(action: {
+                print("qwer")
+            }, label: {
+                Text("이메일로 회원가입하기")
+                    .font(.mainTextRegular12)
+                    .foregroundStyle(Color.gray04)
+                    .underline()
+            })
+            
             
             Image(.kakaoLogin)
             Image(.appleLogin)

@@ -34,7 +34,36 @@ enum menuBox: String, CaseIterable {
 }
 
 struct OtherView: View {
+    
+    
     @AppStorage("nickName") private var nickName: String = "(작성한 닉네임)"
+    
+    
+    enum menuBox: String, CaseIterable {
+        case star, receipt, my
+        
+        var menuTitle: String {
+            switch self {
+            case .star:
+                return "별 히스토리"
+            case .receipt:
+                return "전자영수증"
+            case .my:
+                return "나만의 메뉴"
+            }
+        }
+        
+        var menuImage: String {
+            switch self {
+            case .star:
+                return "menu.star"
+            case .receipt:
+                return "menu.receipt"
+            case .my:
+                return "menu.my"
+            }
+        }
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -54,7 +83,6 @@ struct OtherView: View {
             .padding(.vertical, 41)
             .background(Color.white01)
         }
-        .frame(maxWidth: .infinity)
         
     }
     
@@ -78,6 +106,7 @@ struct OtherView: View {
             Text("\(nickName) 님\n환영합니다!🙌🏻")
                 .font(.mainTextSemibold24)
                 .multilineTextAlignment(.center)
+                .baselineOffset(5)
             
             HStack(spacing: 10.5) {
                 ForEach(menuBox.allCases, id: \.self) { menu in
@@ -90,7 +119,9 @@ struct OtherView: View {
         .padding(.trailing, 29)
     }
     
-    private var payView: some View {
+    
+    /// 페이뷰입니다.
+    public var payView: some View {
         VStack(alignment: .leading) {
             Text("Pay")
                 .font(.mainTextSemiBold18)
@@ -122,27 +153,31 @@ struct OtherView: View {
             Text("고객지원")
                 .font(.mainTextSemiBold18)
                 .padding(.bottom, 8)
-            HStack {
-                MenuCardView(title: "스토어 케어", image: "customerSupport.store")
+            // ----
+            Group {
+                HStack {
+                    MenuCardView(title: "스토어 케어", image: "customerSupport.store")
+                    
+                    Spacer()
+                    
+                    MenuCardView(title: "고객의 소리", image: "customerSupport.voice")
+                }
                 
-                Spacer()
+                HStack {
+                    MenuCardView(title: "매장 정보", image: "customerSupport.place")
+                    
+                    Spacer()
+                    
+                    MenuCardView(title: "반납기 정보", image: "customerSupport.recycle")
+                }
                 
-                MenuCardView(title: "고객의 소리", image: "customerSupport.voice")
-            }
-            .padding(.vertical, 16)
-            HStack {
-                MenuCardView(title: "매장 정보", image: "customerSupport.place")
-                
-                Spacer()
-                
-                MenuCardView(title: "반납기 정보", image: "customerSupport.recycle")
+                HStack {
+                    MenuCardView(title: "마이 스타벅스 리뷰", image: "customerSupport.review")
+                }
             }
             .padding(.vertical, 16)
             
-            HStack {
-                MenuCardView(title: "마이 스타벅스 리뷰", image: "customerSupport.review")
-            }
-            .padding(.vertical, 16)
+            // ------
         }
         .padding(.horizontal, 10)
     }

@@ -54,21 +54,6 @@ enum tabType: String, CaseIterable {
             return "tab.other"
         }
     }
-    
-//    var tabView: some View {
-//        switch self {
-//        case .home:
-//            return Text("home")
-//        case .pay:
-//            return Text("pay")
-//        case .order:
-//            return Text("order")
-//        case .shop:
-//            return Text("shop")
-//        case .other:
-//            return OtherView()
-//        }
-//    }
 }
 
 struct ContentView: View {
@@ -79,21 +64,22 @@ struct ContentView: View {
             TabView(selection: $selection) {
                 ForEach(tabType.allCases, id: \.self) { tab in
                     Tab(value: tab.tabIndex, content: {
-                        OtherView()
+                        Text(tab.tabTitle)
                     }, label: {
                         VStack(spacing: 10) {
-                            Image(selection == tab.tabIndex ? tab.tabImage + "On" : tab.tabImage + "Off")
-//                                .renderingMode(.template)
+                            Image(selectImage(selection: selection, tab: tab))
                             Text(tab.tabTitle)
                         }
+                        .tag(tab)
                     })
                 }
             }
             .tint(.green02)
         }
     }
-    func selectImage() {
-        
+    
+    func selectImage(selection: Int, tab: tabType) -> String {
+        return selection == tab.tabIndex ? tab.tabImage + "On" : tab.tabImage + "Off"
     }
     
 }

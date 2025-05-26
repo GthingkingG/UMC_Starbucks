@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignupView: View {
     @State var signupInfo: SignupModel
+    
     @AppStorage("nickName") private var nickName: String = ""
     @AppStorage("emailAddress") private var emailAddress: String = ""
     @AppStorage("emailPassword") private var emailPassword: String = ""
@@ -23,12 +24,10 @@ struct SignupView: View {
                 makeTextfield(defaultText: "닉네임", text: $signupInfo.nickName)
                 makeTextfield(defaultText: "이메일", text: $signupInfo.emailAddress)
                 makeTextfield(defaultText: "비밀번호", text: $signupInfo.emailPassword)
-//                Spacer()
-//                Text(nickName)
-//                Text(emailAddress)
-//                Text(emailPassword)
             }
+            
             Spacer()
+            
             Button(action: {
                 saveInfo()
             }, label: {
@@ -41,11 +40,12 @@ struct SignupView: View {
                             .font(.makeMedium18)
                     })
             })
-        }.padding(.horizontal, 19)
-            .padding(.top, 210)
-            .padding(.bottom, 72)
+        }
+        .frame(height: 674)
+        .padding(.horizontal, 19)
+        .padding(.top, 152)
     }
-        
+    
     func makeTextfield(defaultText: String, text: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             TextField("\(defaultText)", text: text)
@@ -61,7 +61,7 @@ struct SignupView: View {
         emailPassword = signupInfo.emailPassword
     }
 }
-    
+
 
 
 #Preview {
