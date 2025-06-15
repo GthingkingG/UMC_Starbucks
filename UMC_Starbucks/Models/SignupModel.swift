@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct SignupModel {
     var nickName: String
@@ -13,3 +14,4 @@ struct SignupModel {
     var emailPassword: String
 
 }
+

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "mugCupBanner.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

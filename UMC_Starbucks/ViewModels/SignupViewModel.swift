@@ -11,3 +11,6 @@ import Foundation
 class SignupViewModel {
     let singupModel: SignupModel = .init(nickName: "", emailAddress: "", emailPassword: "")
 }
+
+
+

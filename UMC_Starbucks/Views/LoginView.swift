@@ -12,12 +12,17 @@ struct LoginView: View {
     
     @FocusState private var focus: FocusType?
     
+    @State var router = NavigationRouter()
+    
+    @AppStorage("emailAddress") private var emailAddress: String = ""
+    @AppStorage("emailPassword") private var emailPassword: String = ""
+    
     init() {
         self._loginViewModel = .init(wrappedValue: .init(loginModel: .init(id: "아이디", pwd: "비밀번호")))
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.path) {
             VStack {
                 titleView
                 
@@ -31,6 +36,17 @@ struct LoginView: View {
             }
             .frame(height: 751)
             .safeAreaPadding(.horizontal, 19)
+            .navigationDestination(for: Route.self) {
+                route in
+                switch route {
+                case .login:
+                    LoginView()
+                case .emailSignUp:
+                    SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
+                case .tab:
+                    ContentView()
+                }
+            }
         }
         
     }
@@ -62,14 +78,21 @@ struct LoginView: View {
     
             makeTextfield(text: $loginViewModel.loginModel.pwd, type: .pwd)
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundStyle(Color.green01)
-                    .frame(height: 46)
-                Text("로그인하기")
-                    .font(.mainTextMedium16)
-                    .foregroundStyle(Color.white01)
-            }
+            Button(action: {
+                if isLoggin() {
+                    router.reset()
+                    router.push(.tab)
+                }
+            }, label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .foregroundStyle(Color.green01)
+                        .frame(height: 46)
+                    Text("로그인하기")
+                        .font(.mainTextMedium16)
+                        .foregroundStyle(Color.white01)
+                }
+            })
                 
         }
     }
@@ -77,7 +100,7 @@ struct LoginView: View {
     private var socialLoginView: some View {
         VStack(spacing: 19) {
             Button(action: {
-                print("qwer")
+                router.push(.emailSignUp)
             }, label: {
                 Text("이메일로 회원가입하기")
                     .font(.mainTextRegular12)
@@ -104,10 +127,19 @@ struct LoginView: View {
         }
     }
     
+    func isLoggin() -> Bool {
+        if loginViewModel.loginModel.id == emailAddress && loginViewModel.loginModel.pwd == emailPassword {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     enum FocusType {
         case id
         case pwd
     }
+    
 }
 
 #Preview {

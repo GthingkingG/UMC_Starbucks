@@ -54,6 +54,22 @@ enum tabType: String, CaseIterable {
             return "tab.other"
         }
     }
+    
+    @ViewBuilder
+    func showView() -> some View {
+        switch self {
+        case .home:
+            HomeView()
+        case .pay:
+            Text("Pay")
+        case .order:
+            Text("Order")
+        case .shop:
+            Text("Shop")
+        case .other:
+            OtherView()
+        }
+    }
 }
 
 struct ContentView: View {
@@ -64,7 +80,7 @@ struct ContentView: View {
             TabView(selection: $selection) {
                 ForEach(tabType.allCases, id: \.self) { tab in
                     Tab(value: tab.tabIndex, content: {
-                        Text(tab.tabTitle)
+                        tab.showView()
                     }, label: {
                         VStack(spacing: 10) {
                             Image(selectImage(selection: selection, tab: tab))
@@ -76,6 +92,7 @@ struct ContentView: View {
             }
             .tint(.green02)
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     func selectImage(selection: Int, tab: tabType) -> String {

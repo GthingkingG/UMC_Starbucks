@@ -14,6 +14,9 @@ struct SignupView: View {
     @AppStorage("emailAddress") private var emailAddress: String = ""
     @AppStorage("emailPassword") private var emailPassword: String = ""
     
+    @Environment(\.dismiss) var dismiss
+    
+    
     init(signupInfo: SignupModel) {
         self.signupInfo = signupInfo
     }
@@ -29,7 +32,13 @@ struct SignupView: View {
             Spacer()
             
             Button(action: {
-                saveInfo()
+                if isButtonActive() {
+                    saveInfo()
+                    print("\(signupInfo.nickName)\n\(signupInfo.emailAddress)\n\(signupInfo.emailPassword)")
+                    dismiss()
+                } else {
+                    print("빈 칸이 있음")
+                }
             }, label: {
                 RoundedRectangle(cornerRadius: 20)
                     .frame(height: 58)
@@ -44,6 +53,17 @@ struct SignupView: View {
         .frame(height: 674)
         .padding(.horizontal, 19)
         .padding(.top, 152)
+        .navigationTitle("가입하기")
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarLeading, content: {
+                Button(action: {
+                    dismiss()
+                }) {
+                    navigationItemView(icon: "chevron.left")
+                }
+            })
+        }
     }
     
     func makeTextfield(defaultText: String, text: Binding<String>) -> some View {
@@ -59,6 +79,15 @@ struct SignupView: View {
         nickName = signupInfo.nickName
         emailAddress = signupInfo.emailAddress
         emailPassword = signupInfo.emailPassword
+    }
+    
+    func isButtonActive() -> Bool {
+        return !(signupInfo.nickName.isEmpty || signupInfo.emailAddress.isEmpty || signupInfo.emailPassword.isEmpty)
+    }
+    
+    func navigationItemView(icon: String) -> some View {
+        Image(systemName: icon)
+            .foregroundStyle(Color.black)
     }
 }
 

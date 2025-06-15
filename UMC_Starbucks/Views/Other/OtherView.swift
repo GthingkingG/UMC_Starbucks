@@ -35,7 +35,6 @@ enum menuBox: String, CaseIterable {
 
 struct OtherView: View {
     
-    
     @AppStorage("nickName") private var nickName: String = "(작성한 닉네임)"
     
     
@@ -103,10 +102,15 @@ struct OtherView: View {
     
     private var customerInfoView: some View {
         VStack(spacing: 24) {
-            Text("\(nickName) 님\n환영합니다!🙌🏻")
-                .font(.mainTextSemibold24)
-                .multilineTextAlignment(.center)
-                .baselineOffset(5)
+            VStack(spacing: 5) {
+                HStack {
+                    Text(nickName)
+                        .foregroundStyle(Color.green01)
+                    Text("님")
+                }
+                Text("환영합니다!🙌🏻")
+            }
+            .font(.mainTextSemibold24)
             
             HStack(spacing: 10.5) {
                 ForEach(menuBox.allCases, id: \.self) { menu in
