@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct UMC_StarbucksApp: App {
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            ContentView()
         }
+        .modelContainer(for: ReceiptModel.self)
     }
 }

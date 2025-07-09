@@ -17,21 +17,17 @@ struct MenuBoxView: View {
     }
     
     var body: some View {
-        Button(action: {
-            print(title)
-        }, label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.white)
-                    .frame(width: 102, height: 108)
-                    .shadow(color: .black.opacity(0.1), radius: 2.5, x: 0, y: 0)
-                VStack(spacing: 4) {
-                    Image(image)
-                    Text(title)
-                        .font(.mainTextSemibold16)
-                        .foregroundStyle(Color.black03)
-                }
+        ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color.white)
+                .frame(width: 102, height: 108)
+                .shadow(color: .black.opacity(0.1), radius: 2.5, x: 0, y: 0)
+            VStack(spacing: 4) {
+                Image(image)
+                Text(title)
+                    .font(.mainTextSemibold16)
+                    .foregroundStyle(Color.black03)
             }
-        })
+        }
     }
 }

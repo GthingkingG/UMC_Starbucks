@@ -63,9 +63,9 @@ enum tabType: String, CaseIterable {
         case .pay:
             Text("Pay")
         case .order:
-            Text("Order")
+            OrderView()
         case .shop:
-            Text("Shop")
+            ShopView()
         case .other:
             OtherView()
         }

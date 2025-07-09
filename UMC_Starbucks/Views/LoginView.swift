@@ -44,7 +44,7 @@ struct LoginView: View {
                 case .emailSignUp:
                     SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
                 case .tab:
-                    ContentView()
+                    Text("QQ")
                 }
             }
         }

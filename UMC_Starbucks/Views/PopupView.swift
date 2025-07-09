@@ -20,6 +20,7 @@ struct PopupView: View {
                 
                 buttonView
             }
+            .navigationBarBackButtonHidden(true)
     }
     
     private var buttonView: some View {

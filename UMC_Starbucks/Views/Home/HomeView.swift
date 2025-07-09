@@ -46,6 +46,12 @@ struct HomeView: View {
                 
             }
             .ignoresSafeArea()
+            .navigationDestination(for: String.self) { _ in 
+                PopupView()
+            }
+        }
+        .task {
+            path.append("Pop")
         }
     }
     // MARK: - TopViewCode

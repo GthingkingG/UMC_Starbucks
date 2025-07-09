@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct MenuCardView: View {
+    @Binding var path: NavigationPath
+    
     let title: String
     let image: String
-    
-    init(title: String, image: String) {
-        self.title = title
-        self.image = image
-    }
     
     var body: some View {
         Button(action: {
             print(title)
+            path.append(title)
         }, label: {
             HStack(spacing: 4) {
                 Image(image)
