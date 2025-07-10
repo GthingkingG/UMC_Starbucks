@@ -10,5 +10,4 @@ import Foundation
 enum Route: Hashable {
     case login
     case emailSignUp
-    case tab
 }

@@ -9,13 +9,11 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var loginViewModel: LoginViewModel
-    
     @FocusState private var focus: FocusType?
-    
     @State var router = NavigationRouter()
+    @AppStorage("isAutoLogin") var isAutoLogin: Bool = false
     
-    @AppStorage("emailAddress") private var emailAddress: String = ""
-    @AppStorage("emailPassword") private var emailPassword: String = ""
+    let keychain = KeychainService.shared
     
     init() {
         self._loginViewModel = .init(wrappedValue: .init(loginModel: .init(id: "아이디", pwd: "비밀번호")))
@@ -43,8 +41,6 @@ struct LoginView: View {
                     LoginView()
                 case .emailSignUp:
                     SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
-                case .tab:
-                    Text("QQ")
                 }
             }
         }
@@ -81,7 +77,6 @@ struct LoginView: View {
             Button(action: {
                 if isLoggin() {
                     router.reset()
-                    router.push(.tab)
                 }
             }, label: {
                 ZStack {
@@ -108,8 +103,11 @@ struct LoginView: View {
                     .underline()
             })
             
-            
-            Image(.kakaoLogin)
+            Button(action: {
+                
+            }, label: {
+                Image(.kakaoLogin)
+            })
             Image(.appleLogin)
         }
         .frame(width: 306)
@@ -128,12 +126,14 @@ struct LoginView: View {
     }
     
     func isLoggin() -> Bool {
-        if loginViewModel.loginModel.id == emailAddress && loginViewModel.loginModel.pwd == emailPassword {
+        if loginViewModel.loginModel.pwd == keychain.load(account: loginViewModel.loginModel.id, service: "com.MyApp.login") {
+            isAutoLogin = true
             return true
         } else {
             return false
         }
     }
+    
     
     enum FocusType {
         case id

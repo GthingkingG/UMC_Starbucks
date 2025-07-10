@@ -10,9 +10,15 @@ import SwiftData
 
 @main
 struct UMC_StarbucksApp: App {
+    @AppStorage("isAutoLogin") var isAutoLogin: Bool = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if isAutoLogin {
+                ContentView()
+            } else {
+                LoginView()
+            }
         }
         .modelContainer(for: ReceiptModel.self)
     }

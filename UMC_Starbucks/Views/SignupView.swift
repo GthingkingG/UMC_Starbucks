@@ -10,9 +10,11 @@ import SwiftUI
 struct SignupView: View {
     @State var signupInfo: SignupModel
     
-    @AppStorage("nickName") private var nickName: String = ""
-    @AppStorage("emailAddress") private var emailAddress: String = ""
-    @AppStorage("emailPassword") private var emailPassword: String = ""
+    let keychain = KeychainService.shared
+    
+    @AppStorage("nickName") private var nickName = ""
+    private var emailAddress = ""
+    private var emailPassword = ""
     
     @Environment(\.dismiss) var dismiss
     
@@ -34,6 +36,7 @@ struct SignupView: View {
             Button(action: {
                 if isButtonActive() {
                     saveInfo()
+                    saveStatus()
                     print("\(signupInfo.nickName)\n\(signupInfo.emailAddress)\n\(signupInfo.emailPassword)")
                     dismiss()
                 } else {
@@ -77,8 +80,6 @@ struct SignupView: View {
     
     func saveInfo() {
         nickName = signupInfo.nickName
-        emailAddress = signupInfo.emailAddress
-        emailPassword = signupInfo.emailPassword
     }
     
     func isButtonActive() -> Bool {
@@ -89,6 +90,16 @@ struct SignupView: View {
         Image(systemName: icon)
             .foregroundStyle(Color.black)
     }
+    
+    func saveStatus() {
+        let saveStatus = keychain.savePasswordToKeychain(account: signupInfo.emailAddress, service: "com.MyApp.login", password: signupInfo.emailPassword)
+        if saveStatus == errSecSuccess {
+            print("비밀번호 저장 성공")
+        } else {
+            print("비밀번호 저장 실패", saveStatus)
+        }
+    }
+    
 }
 
 
