@@ -55,6 +55,7 @@ struct OtherView: View {
                     
                     customerSupportView
                 }
+                .padding(.horizontal, 10)
                 .padding(.vertical, 41)
                 .background(Color.white01)
             }
@@ -99,7 +100,7 @@ struct OtherView: View {
             }
             .font(.mainTextSemibold24)
             
-            HStack(spacing: 10.5) {
+            HStack(spacing: 10) {
                 ForEach(menuBox.allCases, id: \.self) { menu in
                     Button(action: {
                         print(menu.menuTitle)
@@ -111,8 +112,6 @@ struct OtherView: View {
             }
             .padding(.horizontal, 24)
         }
-        .padding(.leading, 36)
-        .padding(.trailing, 29)
     }
     
     
@@ -141,7 +140,6 @@ struct OtherView: View {
             Divider()
                 .frame(width: 327, alignment: .leading)
         }
-        .padding(.horizontal, 10)
     }
     
     private var customerSupportView: some View {
@@ -173,7 +171,6 @@ struct OtherView: View {
             }
             .padding(.vertical, 16)
         }
-        .padding(.horizontal, 10)
     }
 }
 
