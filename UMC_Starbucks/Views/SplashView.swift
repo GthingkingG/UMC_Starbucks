@@ -9,6 +9,9 @@ import SwiftUI
 
 
 struct SplashView: View {
+    
+//    @EnvironmentObject var model: TestModel
+    
     var body: some View {
         ZStack(alignment: .center) {
             Image(.starbucks)

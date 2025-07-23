@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		45871AD32E22906500A2254F /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 45871AD22E22906500A2254F /* KakaoSDKAuth */; };
+		45871AD52E22906500A2254F /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 45871AD42E22906500A2254F /* KakaoSDKCommon */; };
+		45871AD72E22906500A2254F /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 45871AD62E22906500A2254F /* KakaoSDKUser */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		45F326012DD2CF9800B77CAC /* UMC_Starbucks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UMC_Starbucks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				45871AD52E22906500A2254F /* KakaoSDKCommon in Frameworks */,
+				45871AD32E22906500A2254F /* KakaoSDKAuth in Frameworks */,
+				45871AD72E22906500A2254F /* KakaoSDKUser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = UMC_Starbucks;
 			packageProductDependencies = (
+				45871AD22E22906500A2254F /* KakaoSDKAuth */,
+				45871AD42E22906500A2254F /* KakaoSDKCommon */,
+				45871AD62E22906500A2254F /* KakaoSDKUser */,
 			);
 			productName = UMC_Starbucks;
 			productReference = 45F326012DD2CF9800B77CAC /* UMC_Starbucks.app */;
@@ -94,6 +106,9 @@
 			);
 			mainGroup = 45F325F82DD2CF9800B77CAC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				45871AD12E22906500A2254F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 45F326022DD2CF9800B77CAC /* Products */;
 			projectDirPath = "";
@@ -259,7 +274,7 @@
 				INFOPLIST_FILE = "UMC-Starbucks-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 사용";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근 권한이 필요합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -291,7 +306,7 @@
 				INFOPLIST_FILE = "UMC-Starbucks-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 사용";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근 권한이 필요합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 앨범 접근 권한이 필요합니다";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -332,6 +347,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		45871AD12E22906500A2254F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.24.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		45871AD22E22906500A2254F /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45871AD12E22906500A2254F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		45871AD42E22906500A2254F /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45871AD12E22906500A2254F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		45871AD62E22906500A2254F /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 45871AD12E22906500A2254F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 45F325F92DD2CF9800B77CAC /* Project object */;
 }

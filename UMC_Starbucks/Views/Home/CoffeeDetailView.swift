@@ -107,5 +107,5 @@ struct CoffeeDetailView: View {
 }
 
 #Preview {
-    CoffeeDetailView(item: .init(title: "에스프레소 콘 파나", image: "conpanna", englishTitle: "Espresson Con Panna", backgroundImage: "conpaannaBack", description: "신선한 에스프레소 샷에 풍부한 휘핑크림을 얹은 커피 음료로서, 뜨거운 커피의 맛과 차갑고 달콤한 생크림의 맛을 같이 즐길 수 있는 커피 음료", value: "4,100", drinkType: .hotOnly))
+    CoffeeDetailView(item: .init(title: "에스프레소 콘 파나", image: "conpanna", englishTitle: "Espresson Con Panna", backgroundImage: "conpaannaBack", description: "신선한 에스프레소 샷에 풍부한 휘핑크림을 얹은 커피 음료로서, 뜨거운 커피의 맛과 차갑고 달콤한 생크림의 맛을 같이 즐길 수 있는 커피 음료", value: "4,100", drinkType: .bothHot))
 }

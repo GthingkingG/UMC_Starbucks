@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import KakaoSDKUser
 
 struct LoginView: View {
     @StateObject var loginViewModel: LoginViewModel
     @FocusState private var focus: FocusType?
     @State var router = NavigationRouter()
+    @AppStorage("nickName") private var nickName = ""
     @AppStorage("isAutoLogin") var isAutoLogin: Bool = false
     
     let keychain = KeychainService.shared
@@ -104,7 +106,7 @@ struct LoginView: View {
             })
             
             Button(action: {
-                
+                kakaoLogin()
             }, label: {
                 Image(.kakaoLogin)
             })
@@ -131,6 +133,44 @@ struct LoginView: View {
             return true
         } else {
             return false
+        }
+    }
+    
+    func kakaoLogin() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                if let error = error {
+                    print("에러: \(error)")
+                }
+                print("카카오톡 로그인 success")
+                UserApi.shared.me { user, error in
+                    if let error = error {
+                        print("에러: \(error)")
+                    }
+                    if let user = user {
+                        nickName = user.kakaoAccount?.profile?.nickname ?? ""
+                        isAutoLogin = true
+                    }
+                }
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                if let error = error {
+                    print("에러: \(error)")
+                    
+                } else {
+                    print("카카오 계정 로그인 success")
+                    UserApi.shared.me { user, error in
+                        if let error = error {
+                            print("에러: \(error)")
+                        }
+                        if let user = user {
+                            nickName = user.kakaoAccount?.profile?.nickname ?? ""
+                            isAutoLogin = true
+                        }
+                    }
+                }
+            }
         }
     }
     
