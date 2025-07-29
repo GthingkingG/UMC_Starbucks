@@ -10,5 +10,4 @@ import Foundation
 @Observable
 class DessertViewModel {
     let dessertModels: [DessertModel] = DessertModelList.lists
-    
 }

@@ -13,8 +13,6 @@ struct SignupView: View {
     let keychain = KeychainService.shared
     
     @AppStorage("nickName") private var nickName = ""
-    private var emailAddress = ""
-    private var emailPassword = ""
     
     @Environment(\.dismiss) var dismiss
     
@@ -35,7 +33,7 @@ struct SignupView: View {
             
             Button(action: {
                 if isButtonActive() {
-                    saveInfo()
+                    saveNickName()
                     saveStatus()
                     print("\(signupInfo.nickName)\n\(signupInfo.emailAddress)\n\(signupInfo.emailPassword)")
                     dismiss()
@@ -78,7 +76,7 @@ struct SignupView: View {
         }
     }
     
-    func saveInfo() {
+    func saveNickName() {
         nickName = signupInfo.nickName
     }
     
@@ -92,11 +90,11 @@ struct SignupView: View {
     }
     
     func saveStatus() {
-        let saveStatus = keychain.savePasswordToKeychain(account: signupInfo.emailAddress, service: "com.MyApp.login", password: signupInfo.emailPassword)
+        let saveStatus = keychain.savePasswordToKeychain(key: "Starbucks_One", service: "com.MyApp.login", userInfo: .init(id: signupInfo.emailAddress  , password: signupInfo.emailPassword))
         if saveStatus == errSecSuccess {
-            print("비밀번호 저장 성공")
+            print("저장 성공")
         } else {
-            print("비밀번호 저장 실패", saveStatus)
+            print("저장 실패", saveStatus)
         }
     }
     

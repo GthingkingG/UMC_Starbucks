@@ -13,7 +13,7 @@ struct LoginView: View {
     @FocusState private var focus: FocusType?
     @State var router = NavigationRouter()
     @AppStorage("nickName") private var nickName = ""
-    @AppStorage("isAutoLogin") var isAutoLogin: Bool = false
+    @Environment(AppFlowViewModel.self) var appFlowViewModel
     
     let keychain = KeychainService.shared
     
@@ -79,6 +79,7 @@ struct LoginView: View {
             Button(action: {
                 if isLoggin() {
                     router.reset()
+                    appFlowViewModel.changeAppState(.tab)
                 }
             }, label: {
                 ZStack {
@@ -128,10 +129,20 @@ struct LoginView: View {
     }
     
     func isLoggin() -> Bool {
-        if loginViewModel.loginModel.pwd == keychain.load(account: loginViewModel.loginModel.id, service: "com.MyApp.login") {
-            isAutoLogin = true
+        guard let savedUserInfo = keychain.load(key: "Starbucks_One", service: "com.MyApp.login") else {
+            print("키체인에 저장된 정보 없음")
+            return false
+        }
+        
+        if savedUserInfo.id == loginViewModel.loginModel.id && savedUserInfo.password == loginViewModel.loginModel.pwd {
+            appFlowViewModel.changeAppState(.tab)
             return true
         } else {
+            print("로그인 실패")
+            print(savedUserInfo.id)
+            print(savedUserInfo.password)
+            print(loginViewModel.loginModel.id)
+            print(loginViewModel.loginModel.pwd)
             return false
         }
     }
@@ -148,8 +159,9 @@ struct LoginView: View {
                         print("에러: \(error)")
                     }
                     if let user = user {
-                        nickName = user.kakaoAccount?.profile?.nickname ?? ""
-                        isAutoLogin = true
+                        nickName = user.kakaoAccount?.profile?.nickname ?? "앱 오류"
+                        router.reset()
+                        appFlowViewModel.changeAppState(.tab)
                     }
                 }
             }
@@ -165,15 +177,15 @@ struct LoginView: View {
                             print("에러: \(error)")
                         }
                         if let user = user {
-                            nickName = user.kakaoAccount?.profile?.nickname ?? ""
-                            isAutoLogin = true
+                            nickName = user.kakaoAccount?.profile?.nickname ?? "웹 오류"
+                            router.reset()
+                            appFlowViewModel.changeAppState(.tab)
                         }
                     }
                 }
             }
         }
     }
-    
     
     enum FocusType {
         case id

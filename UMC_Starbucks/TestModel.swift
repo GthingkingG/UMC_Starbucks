@@ -5,7 +5,7 @@
 //  Created by Air on 7/23/25.
 //
 
-import Foundation
+import SwiftUI
 
 @Observable
 class AppFlowViewModel {
@@ -16,10 +16,14 @@ class AppFlowViewModel {
     }
     
     var appSate: AppState = .splash
+    let keychain = KeychainService.shared
     
-    
-    func changeAppState(change: AppState) {
-        self.appSate = .login
+    func changeAppState(_ newState: AppState) {
+        self.appSate = newState
     }
     
+    func logout() {
+        keychain.delete(key: "Starbucks_One", service: "com.MyApp.login")
+        self.appSate = .splash
+    }
 }

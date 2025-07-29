@@ -17,6 +17,7 @@ struct ItemCard: View {
             Text(title)
                 .foregroundStyle(Color.black03)
                 .font(.mainTextSemiBold14)
+                .frame(height: 40, alignment: .top)
         }
     }
 }

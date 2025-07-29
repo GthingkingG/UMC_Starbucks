@@ -9,5 +9,8 @@ import Foundation
 
 @Observable
 class ProductViewModel {
-    let productModels: [ProductModel] = ProductLists.lists
+    let allProductModels: [ProductModel] = AllProductLists.lists
+    let firstBestItems: [ProductModel] = ItemDataList.firstItems
+    let secondBestItems: [ProductModel] = ItemDataList.secondItems
+    let newProductModels: [ProductModel] = NewProductLists.lists
 }

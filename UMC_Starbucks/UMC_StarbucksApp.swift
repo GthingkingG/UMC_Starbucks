@@ -12,7 +12,6 @@ import KakaoSDKAuth
 
 @main
 struct UMC_StarbucksApp: App {
-    @AppStorage("isAutoLogin") var isAutoLogin: Bool = false
     @State var appFlowVieModel: AppFlowViewModel = .init()
     
     init() {
@@ -22,27 +21,22 @@ struct UMC_StarbucksApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            switch model.appSate {
-//            case .splash:
-//                SplashView()
-//            case .login:
-//                LoginView()
-//            case .tab:
-//                ContentView()
-//            }
-            Group {
-                if isAutoLogin {
-                    ContentView()
-                } else {
-                    LoginView()
-                        .onOpenURL(perform: { url in
-                            if AuthApi.isKakaoTalkLoginUrl(url) {
-                                _ = AuthController.handleOpenUrl(url: url)
-                            }
-                        })
-                }
+            switch appFlowVieModel.appSate {
+            case .splash:
+                SplashView()
+                    .environment(appFlowVieModel)
+            case .login:
+                LoginView()
+                    .environment(appFlowVieModel)
+                    .onOpenURL(perform: { url in
+                        if AuthApi.isKakaoTalkLoginUrl(url) {
+                            _ = AuthController.handleOpenUrl(url: url)
+                        }
+                    })
+            case .tab:
+                ContentView()
+                    .modelContainer(for: ReceiptModel.self)
             }
         }
-        .modelContainer(for: ReceiptModel.self)
     }
 }

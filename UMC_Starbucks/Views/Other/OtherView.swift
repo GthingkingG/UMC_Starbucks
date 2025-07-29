@@ -12,6 +12,7 @@ struct OtherView: View {
     
     @AppStorage("nickName") private var nickName: String = "(작성한 닉네임)"
     @State private var path = NavigationPath()
+    let keychain = KeychainService.shared
     
     enum menuBox: String, CaseIterable {
         case star, receipt, my

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ShopView: View {
     let columns = Array(repeating: GridItem(.flexible(), spacing: 65), count: 2)
-    private var itemViewModel: ItemViewModel = .init()
     private var productViewModel: ProductViewModel = .init()
     
     @State var selection = 0
@@ -55,14 +54,12 @@ struct ShopView: View {
             
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 17) {
-                    CircleImageCard(title: "텀블러", image: "tumbler")
-                    CircleImageCard(title: "커피 용품", image: "coffeeSupplies")
-                    CircleImageCard(title: "선물세트", image: "giftSet")
-                    CircleImageCard(title: "보온병", image: "thermos")
-                    CircleImageCard(title: "머그/컵", image: "mugCup")
-                    CircleImageCard(title: "라이프스타일", image: "lifeStyle")
+                    ForEach(productViewModel.allProductModels, id: \.id) { product in
+                        CircleImageCard(title: product.title, image: product.image)
+                    }
                 }
             }
+            .scrollIndicators(.hidden)
         }
     }
     
@@ -72,15 +69,15 @@ struct ShopView: View {
                 .foregroundStyle(Color.black03)
                 .font(.mainTextSemiBold18)
             TabView(selection: $selection) {
-                LazyVGrid(columns: columns) {
-                    ForEach(itemViewModel.firstItemModels, id: \.self) { item in
+                LazyVGrid(columns: columns, spacing: 54) {
+                    ForEach(productViewModel.firstBestItems, id: \.id) { item in
                         ItemCard(title: item.title, image: item.image)
                     }
                 }
                 .tag(0)
                 
                 LazyVGrid(columns: columns) {
-                    ForEach(itemViewModel.secondItemModels, id: \.self) { item in
+                    ForEach(productViewModel.secondBestItems, id: \.self) { item in
                         ItemCard(title: item.title, image: item.image)
                     }
                 }
@@ -94,7 +91,7 @@ struct ShopView: View {
                 Spacer()
             }
         }
-        .frame(height: 470) //프레임을 주지 않으면 뷰 크기가 매우 작아진다.
+        .frame(height: 520) /*프레임을 주지 않으면 뷰 크기가 매우 작아진다.*/
     }
     
     private var newProductsView: some View {
@@ -103,7 +100,7 @@ struct ShopView: View {
                 .foregroundStyle(Color.black03)
                 .font(.mainTextSemiBold18)
             LazyVGrid(columns: columns) {
-                ForEach(productViewModel.productModels, id: \.self) { product in
+                ForEach(productViewModel.newProductModels, id: \.id) { product in
                     ItemCard(title: product.title, image: product.image)
                 }
             }
