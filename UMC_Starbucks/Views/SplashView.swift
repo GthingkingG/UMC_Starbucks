@@ -9,7 +9,6 @@ import SwiftUI
 
 
 struct SplashView: View {
-    
     @Environment(AppFlowViewModel.self) var appFlowViewModel
     let keychain = KeychainService.shared
     

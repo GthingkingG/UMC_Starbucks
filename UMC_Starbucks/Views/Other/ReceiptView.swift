@@ -14,19 +14,7 @@ struct ReceiptView: View {
     @Environment(\.modelContext) private var context
     @Query(sort: \ReceiptModel.createdAt, order: .reverse) private var receipts: [ReceiptModel]
     
-    @State private var selectedItems: [PhotosPickerItem] = []
-    
-    @State private var showCamera = false
-    @State private var showActionSheet = false
-    @State private var showPhotosPicker = false
-    @State private var showReceipt = false
-    
-    @State private var totalSum: Int = 0
-    
-    @State private var selectedReceipt: ReceiptModel?
-    
-    
-    private var receiptViewModel: ReceiptViewModel = .init()
+    @State private var receiptViewModel: ReceiptViewModel = .init()
     
     var body: some View {
         ZStack {
@@ -44,29 +32,29 @@ struct ReceiptView: View {
                 
             }
             
-            if showReceipt {
-                if let receipt = selectedReceipt {
+            if receiptViewModel.showReceipt {
+                if let receipt = receiptViewModel.selectedReceipt {
                     receiptView(receipt: receipt)
                 }
             }
         }
         .navigationBarBackButtonHidden(true)
-        .confirmationDialog("영수증을 어떻게 추가할까요?", isPresented: $showActionSheet, titleVisibility: .visible) {
+        .confirmationDialog("영수증을 어떻게 추가할까요?", isPresented: $receiptViewModel.showActionSheet, titleVisibility: .visible) {
             Button("앨범에서 가져오기") {
-                showPhotosPicker = true
+                receiptViewModel.showPhotosPicker = true
             }
             Button("카메라로 촬영하기") {
-                showCamera = true
+                receiptViewModel.showCamera = true
             }
             Button("취소", role: .cancel) {}
         }
-        .sheet(isPresented: $showCamera) {
+        .sheet(isPresented: $receiptViewModel.showCamera) {
             CameraPicker { image in
                 receiptViewModel.addImage(image)
             }
         }
-        .photosPicker(isPresented: $showPhotosPicker, selection: $selectedItems, maxSelectionCount: 1, matching: .images)
-        .onChange(of: selectedItems) { oldItems, newItems in
+        .photosPicker(isPresented: $receiptViewModel.showPhotosPicker, selection: $receiptViewModel.selectedItems, maxSelectionCount: 1, matching: .images)
+        .onChange(of: receiptViewModel.selectedItems) { oldItems, newItems in
             for item in newItems {
                 Task {
                     if let data = try? await
@@ -103,7 +91,7 @@ struct ReceiptView: View {
                 Spacer()
                 
                 Button(action: {
-                    showActionSheet = true
+                    receiptViewModel.showActionSheet = true
                 }, label: {
                     Image(systemName: "plus")
                         .foregroundStyle(Color.black03)
@@ -131,7 +119,7 @@ struct ReceiptView: View {
                 Text("사용합계")
                     .foregroundStyle(Color.black03)
                     .font(.mainTextRegular18)
-                Text("\(totalSum)")
+                Text("\(receiptViewModel.totalSum)")
                     .foregroundStyle(Color.brown01)
                     .font(.mainTextSemiBold18)
             }
@@ -159,8 +147,8 @@ struct ReceiptView: View {
                     
                     Button(action: {
                         print(receipt.store)
-                        showReceipt = true
-                        selectedReceipt = receipt
+                        receiptViewModel.showReceipt = true
+                        receiptViewModel.selectedReceipt = receipt
                     }, label: {
                         Image(.receiptSignal)
                     })
@@ -188,9 +176,9 @@ struct ReceiptView: View {
     }
     
     private func calculateTotalSum() {
-        totalSum = 0
+        receiptViewModel.totalSum = 0
         for receipt in receipts {
-            totalSum += receipt.totalAmount
+            receiptViewModel.totalSum += receipt.totalAmount
         }
     }
     
@@ -207,7 +195,7 @@ struct ReceiptView: View {
                         .scaledToFit()
                     
                     Button(action: {
-                        showReceipt = false
+                        receiptViewModel.showReceipt = false
                     }, label: {
                         Image(.vector)
                             .resizable()

@@ -6,10 +6,20 @@
 //
 
 import SwiftUI
+import PhotosUI
 import Vision
 
 @Observable
 class ReceiptViewModel: ImageHandling {
+    var selectedItems: [PhotosPickerItem] = []
+    var showCamera = false
+    var showActionSheet = false
+    var showPhotosPicker = false
+    var showReceipt = false
+    var totalSum: Int = 0
+    var selectedReceipt: ReceiptModel?
+    
+    
     var images: [UIImage] = []
     var recognizedText: String = ""
     var currentReceipt: ReceiptModel?
@@ -72,7 +82,6 @@ class ReceiptViewModel: ImageHandling {
         
         while i < lines.count {
             let trimmed = lines[i].trimmingCharacters(in: .whitespacesAndNewlines)
-//            print("🔹 [\(i)] \(trimmed)")
             
             if trimmed.range(of: "([0-9]{4})\\-([0-9]{2})\\-([0-9]{2})", options: .regularExpression) != nil, i < 15 {
                 var dateString = trimmed

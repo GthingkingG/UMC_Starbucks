@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct ShopView: View {
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 65), count: 2)
-    private var productViewModel: ProductViewModel = .init()
-    
-    @State var selection = 0
+    @State private var productViewModel: ProductViewModel = .init()
     
     var body: some View {
         ScrollView {
             VStack {
                 titleView
-                Spacer()
-                productsView
-                Spacer()
-                itemView
-                Spacer()
-                newProductsView
                 
+                Spacer()
+                
+                productsView
+                
+                Spacer()
+                
+                itemView
+                
+                Spacer()
+                
+                newProductsView
             }
             .padding(.horizontal, 16)
         }
@@ -68,15 +70,15 @@ struct ShopView: View {
             Text("Best Items")
                 .foregroundStyle(Color.black03)
                 .font(.mainTextSemiBold18)
-            TabView(selection: $selection) {
-                LazyVGrid(columns: columns, spacing: 54) {
+            TabView(selection: $productViewModel.selection) {
+                LazyVGrid(columns: productViewModel.columns, spacing: 54) {
                     ForEach(productViewModel.firstBestItems, id: \.id) { item in
                         ItemCard(title: item.title, image: item.image)
                     }
                 }
                 .tag(0)
                 
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: productViewModel.columns) {
                     ForEach(productViewModel.secondBestItems, id: \.self) { item in
                         ItemCard(title: item.title, image: item.image)
                     }
@@ -87,7 +89,7 @@ struct ShopView: View {
             
             HStack {
                 Spacer()
-                PageControl(numberOfPages: 2, currentPage: $selection)
+                PageControl(numberOfPages: 2, currentPage: $productViewModel.selection)
                 Spacer()
             }
         }
@@ -99,7 +101,7 @@ struct ShopView: View {
             Text("New Products")
                 .foregroundStyle(Color.black03)
                 .font(.mainTextSemiBold18)
-            LazyVGrid(columns: columns) {
+            LazyVGrid(columns: productViewModel.columns) {
                 ForEach(productViewModel.newProductModels, id: \.id) { product in
                     ItemCard(title: product.title, image: product.image)
                 }

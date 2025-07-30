@@ -100,8 +100,6 @@ struct SignupView: View {
     
 }
 
-
-
 #Preview {
     SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
 }

@@ -9,8 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     private var homeViewModel: HomeViewModel = .init()
-    private var newViewModel: NewViewModel = .init()
-    private var dessertViewModel: DessertViewModel = .init()
 
     @State private var path = NavigationPath()
     
@@ -49,9 +47,6 @@ struct HomeView: View {
             .navigationDestination(for: String.self) { _ in 
                 PopupView()
             }
-        }
-        .task {
-            path.append("Pop")
         }
     }
     // MARK: - TopViewCode
@@ -134,7 +129,7 @@ struct HomeView: View {
             .font(.mainTextBold24)
             ScrollView(.horizontal) {
                 HStack(spacing: 16) {
-                    ForEach(homeViewModel.homeModels, id: \.self) { item in
+                    ForEach(homeViewModel.homeModels, id: \.id) { item in
                         Button(action: {
                             path.append(item)
                             print(item.title)
@@ -161,7 +156,7 @@ struct HomeView: View {
                 .foregroundStyle(Color.black03)
             ScrollView(.horizontal) {
                 HStack(spacing: 16, content: {
-                    ForEach(newViewModel.newModels, id: \.self) { item in
+                    ForEach(homeViewModel.newModels, id: \.id) { item in
                         NewCard(title: item.title, desription: item.description, image: item.image)
                     }
                 })
@@ -218,7 +213,7 @@ struct HomeView: View {
                 .foregroundStyle(.black03)
             ScrollView(.horizontal) {
                 HStack(spacing: 16) {
-                    ForEach(dessertViewModel.dessertModels, id: \.self) { item in
+                    ForEach(homeViewModel.dessertModels, id: \.self) { item in
                         VStack(spacing: 10) {
                             CircleImageCard(title: item.title, image: item.image)
                         }
