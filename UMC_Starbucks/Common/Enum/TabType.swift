@@ -56,10 +56,10 @@ enum tabType: String, CaseIterable {
     }
     
     @ViewBuilder
-    func showView() -> some View {
+    func showView(router: NavigationRouter) -> some View {
         switch self {
         case .home:
-            HomeView()
+            HomeView(router: router)
         case .pay:
             Text("Pay")
         case .order:
@@ -67,7 +67,7 @@ enum tabType: String, CaseIterable {
         case .shop:
             ShopView()
         case .other:
-            OtherView()
+            OtherView(router: router)
         }
     }
 }

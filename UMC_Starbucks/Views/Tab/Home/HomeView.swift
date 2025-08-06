@@ -8,49 +8,43 @@
 import SwiftUI
 
 struct HomeView: View {
-    private var homeViewModel: HomeViewModel = .init()
+    @State var homeViewModel: HomeViewModel = .init()
 
-    @State private var path = NavigationPath()
+    @Bindable var router: NavigationRouter
     
     @AppStorage("nickName") private var nickName: String = "(설정닉네임)"
     
     var body: some View {
-        NavigationStack(path: $path) {
-            ScrollView {
-                TopView
-                Spacer()
-                VStack(spacing: 20) {
-                    Image(.commercial)
-                    
-                    RecommandView
-
-                    Image(.eventBanner)
-                    
-                    Image(.serviceSuscibe)
-                    
-                    NewView
-                    
-                    BannerGroupView
-                    
-                    DessertView
-                    
-                    Image(.coldBrew)
-                    
-                    Image(.favorites)
-                    
-                    Image(.membership)
-                }
-                .safeAreaPadding(.horizontal, 10)
+        ScrollView {
+            TopView
+            Spacer()
+            VStack(spacing: 20) {
+                Image(.commercial)
                 
+                RecommandView
+
+                Image(.eventBanner)
+                
+                Image(.serviceSuscibe)
+                
+                NewView
+                
+                BannerGroupView
+                
+                DessertView
+                
+                Image(.coldBrew)
+                
+                Image(.favorites)
+                
+                Image(.membership)
             }
-            .ignoresSafeArea()
-            .navigationDestination(for: String.self) { _ in 
-                PopupView()
-            }
+            .safeAreaPadding(.horizontal, 10)
         }
+        .ignoresSafeArea()
     }
-    // MARK: - TopViewCode
     
+    // MARK: - TopViewCode
     private var TopView: some View {
         ZStack(alignment: .bottom) {
             Image("topImage")
@@ -64,7 +58,6 @@ struct HomeView: View {
                 
                 HStack(spacing: 4) {
                     Spacer()
-                    
                     Text("내용보기")
                         .foregroundStyle(Color.gray06)
                         .font(.mainTextRegular13)
@@ -94,7 +87,6 @@ struct HomeView: View {
                         .foregroundStyle(Color.brown01)
                         .frame(width: 110)
                 }
-                
             }
             .frame(maxWidth: 255)
             .padding(.bottom, 3)
@@ -112,13 +104,11 @@ struct HomeView: View {
                     .font(.mainTextSemibold24)
             }
             .padding(.trailing, 30)
-            
         }
         .frame(height: 38)
     }
     
     //MARK: - MiddleContents
-    
     private var RecommandView: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 0) {
@@ -131,16 +121,13 @@ struct HomeView: View {
                 HStack(spacing: 16) {
                     ForEach(homeViewModel.homeModels, id: \.id) { item in
                         Button(action: {
-                            path.append(item)
+                            router.push(.coffeeDetail(item: item))
                             print(item.title)
                         }, label: {
                             VStack(spacing: 10) {
                                 CircleImageCard(title: item.title, image: item.image)
                             }
                         })
-                        .navigationDestination(for: HomeModel.self) { value in
-                            CoffeeDetailView(item: value)
-                        }
                     }
                 }
             }
@@ -162,7 +149,6 @@ struct HomeView: View {
                 })
             }
             .scrollIndicators(.hidden)
-            
         })
     }
     
@@ -205,7 +191,6 @@ struct HomeView: View {
     }
     
     //MARK: - BottomContents
-    
     private var DessertView: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("하루가 달콤해지는 디저트")
@@ -223,9 +208,8 @@ struct HomeView: View {
             .scrollIndicators(.hidden)
         }
     }
-
 }
 
 #Preview {
-    HomeView()
+    HomeView(router: .init())
 }

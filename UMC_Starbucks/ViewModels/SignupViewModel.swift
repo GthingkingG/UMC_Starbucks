@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class SignupViewModel {
-    let singupModel: SignupModel = .init(nickName: "", emailAddress: "", emailPassword: "")
+    var singupModel: SignupModel = .init(nickName: "", emailAddress: "", emailPassword: "")
 }
 
 

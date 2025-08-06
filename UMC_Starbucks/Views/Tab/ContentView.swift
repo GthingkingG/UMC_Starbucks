@@ -17,7 +17,7 @@ struct ContentView: View {
                 TabView(selection: $selection) {
                     ForEach(tabType.allCases, id: \.self) { tab in
                         Tab(value: tab.tabIndex, content: {
-                            tab.showView()
+                            tab.showView(router: router)
                         }, label: {
                             VStack(spacing: 10) {
                                 Image(selectImage(selection: selection, tab: tab))
@@ -28,8 +28,21 @@ struct ContentView: View {
                     }
                 }
                 .tint(.green02)
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .coffeeDetail(let item):
+                        CoffeeDetailView(item: item)
+                    case .receipt:
+                        ReceiptView()
+                    case .mapInfo:
+                        MapInfoView()
+                    case .temp:
+                        EmptyView()
+                    }
+                }
             }
             .navigationBarBackButtonHidden(true)
+            
         }
     }
     

@@ -57,12 +57,13 @@ struct ReceiptView: View {
         .onChange(of: receiptViewModel.selectedItems) { oldItems, newItems in
             for item in newItems {
                 Task {
-                    if let data = try? await
-                        item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
+                    if let data = try? await item.loadTransferable(type: Data.self), let image = UIImage(data: data) {
                         receiptViewModel.addImage(image)
-                        if let currentReceipt = receiptViewModel.currentReceipt {
-                            addReceipt(currentReceipt: currentReceipt)
-                            calculateTotalSum()
+                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5) {
+                            if let currentReceipt = receiptViewModel.currentReceipt {
+                                addReceipt(currentReceipt: currentReceipt)
+                                calculateTotalSum()
+                            }
                         }
                     }
                 }
@@ -91,6 +92,7 @@ struct ReceiptView: View {
                 Spacer()
                 
                 Button(action: {
+                    receiptViewModel.selectedItems.removeAll()
                     receiptViewModel.showActionSheet = true
                 }, label: {
                     Image(systemName: "plus")
@@ -188,9 +190,9 @@ struct ReceiptView: View {
                 .fill(Color.black03.opacity(0.8))
                 .ignoresSafeArea()
             
-            if let imageData = receipt.image {
+            if let imageData = receipt.image, let image = UIImage(data: imageData) {
                 ZStack(alignment: .topTrailing) {
-                    Image(uiImage: (UIImage(data: imageData)!))
+                    Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
                     

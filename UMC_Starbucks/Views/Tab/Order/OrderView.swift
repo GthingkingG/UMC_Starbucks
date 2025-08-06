@@ -12,7 +12,7 @@ struct OrderView: View {
     @State var currentTab: Int = 0
     @State var showSheet: Bool = false
     
-    private var orderViewModel: OrderViewModel = .init()
+    @State private var orderViewModel: OrderViewModel = .init()
     
     var body: some View {
         NavigationStack {

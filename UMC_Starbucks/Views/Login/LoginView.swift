@@ -11,7 +11,7 @@ import KakaoSDKUser
 struct LoginView: View {
     @StateObject var loginViewModel: LoginViewModel
     @FocusState private var focus: FocusType?
-    @State var router = NavigationRouter()
+    @State var path = NavigationPath()
     @AppStorage("nickName") private var nickName = ""
     @Environment(AppFlowViewModel.self) var appFlowViewModel
     
@@ -22,7 +22,7 @@ struct LoginView: View {
     }
     
     var body: some View {
-        NavigationStack(path: $router.path) {
+        NavigationStack(path: $path) {
             VStack {
                 titleView
                 
@@ -36,14 +36,8 @@ struct LoginView: View {
             }
             .frame(height: 751)
             .safeAreaPadding(.horizontal, 19)
-            .navigationDestination(for: Route.self) {
-                route in
-                switch route {
-                case .login:
-                    LoginView()
-                case .emailSignUp:
-                    SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
-                }
+            .navigationDestination(for: String.self) { value in
+                SignupView()
             }
         }
     }
@@ -76,7 +70,6 @@ struct LoginView: View {
             
             Button(action: {
                 if isLoggin() {
-                    router.reset()
                     appFlowViewModel.changeAppState(.tab)
                 }
             }, label: {
@@ -96,7 +89,7 @@ struct LoginView: View {
     private var socialLoginView: some View {
         VStack(spacing: 19) {
             Button(action: {
-                router.push(.emailSignUp)
+                path.append("Sign")
             }, label: {
                 Text("이메일로 회원가입하기")
                     .font(.mainTextRegular12)
@@ -158,7 +151,6 @@ struct LoginView: View {
                     }
                     if let user = user {
                         nickName = user.kakaoAccount?.profile?.nickname ?? "앱 오류"
-                        router.reset()
                         appFlowViewModel.changeAppState(.tab)
                     }
                 }
@@ -176,7 +168,6 @@ struct LoginView: View {
                         }
                         if let user = user {
                             nickName = user.kakaoAccount?.profile?.nickname ?? "웹 오류"
-                            router.reset()
                             appFlowViewModel.changeAppState(.tab)
                         }
                     }
@@ -190,8 +181,4 @@ struct LoginView: View {
         case pwd
     }
     
-}
-
-#Preview {
-    LoginView()
 }

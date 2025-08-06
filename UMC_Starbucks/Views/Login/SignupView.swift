@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignupView: View {
-    @State var signupInfo: SignupModel
+    @State var signUpViewModel = SignupViewModel()
     
     let keychain = KeychainService.shared
     
@@ -17,16 +17,12 @@ struct SignupView: View {
     @Environment(\.dismiss) var dismiss
     
     
-    init(signupInfo: SignupModel) {
-        self.signupInfo = signupInfo
-    }
-    
     var body: some View {
         VStack {
             VStack(spacing: 49) {
-                makeTextfield(defaultText: "닉네임", text: $signupInfo.nickName)
-                makeTextfield(defaultText: "이메일", text: $signupInfo.emailAddress)
-                makeTextfield(defaultText: "비밀번호", text: $signupInfo.emailPassword)
+                makeTextfield(defaultText: "닉네임", text: $signUpViewModel.singupModel.nickName)
+                makeTextfield(defaultText: "이메일", text: $signUpViewModel.singupModel.emailAddress)
+                makeTextfield(defaultText: "비밀번호", text: $signUpViewModel.singupModel.emailPassword)
             }
             
             Spacer()
@@ -35,7 +31,7 @@ struct SignupView: View {
                 if isButtonActive() {
                     saveNickName()
                     saveStatus()
-                    print("\(signupInfo.nickName)\n\(signupInfo.emailAddress)\n\(signupInfo.emailPassword)")
+                    print("\(signUpViewModel.singupModel.nickName)\n\(signUpViewModel.singupModel.emailAddress)\n\(signUpViewModel.singupModel.emailPassword)")
                     dismiss()
                 } else {
                     print("빈 칸이 있음")
@@ -77,11 +73,11 @@ struct SignupView: View {
     }
     
     func saveNickName() {
-        nickName = signupInfo.nickName
+        nickName = signUpViewModel.singupModel.nickName
     }
     
     func isButtonActive() -> Bool {
-        return !(signupInfo.nickName.isEmpty || signupInfo.emailAddress.isEmpty || signupInfo.emailPassword.isEmpty)
+        return !(signUpViewModel.singupModel.nickName.isEmpty || signUpViewModel.singupModel.emailAddress.isEmpty || signUpViewModel.singupModel.emailPassword.isEmpty)
     }
     
     func navigationItemView(icon: String) -> some View {
@@ -90,7 +86,7 @@ struct SignupView: View {
     }
     
     func saveStatus() {
-        let saveStatus = keychain.savePasswordToKeychain(key: "Starbucks_One", service: "com.MyApp.login", userInfo: .init(id: signupInfo.emailAddress  , password: signupInfo.emailPassword))
+        let saveStatus = keychain.savePasswordToKeychain(key: "Starbucks_One", service: "com.MyApp.login", userInfo: .init(id: signUpViewModel.singupModel.emailAddress  , password: signUpViewModel.singupModel.emailPassword))
         if saveStatus == errSecSuccess {
             print("저장 성공")
         } else {
@@ -101,5 +97,5 @@ struct SignupView: View {
 }
 
 #Preview {
-    SignupView(signupInfo: .init(nickName: "", emailAddress: "", emailPassword: ""))
+    SignupView()
 }

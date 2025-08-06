@@ -8,6 +8,8 @@
 import Foundation
 
 enum Route: Hashable {
-    case login
-    case emailSignUp
+    case coffeeDetail(item: HomeModel)
+    case receipt
+    case mapInfo
+    case temp
 }

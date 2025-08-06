@@ -14,7 +14,7 @@ struct OrderSheetView: View {
     @State private var showingMap: Bool = false
     
     @Bindable private var locationManager = LocationManager.shared
-    @Bindable private var viewModel: MapViewModel = .init()
+    @State private var viewModel: MapViewModel = .init()
     
     private var orderSheetViewModel: OrderSheetViewModel = .init()
     
