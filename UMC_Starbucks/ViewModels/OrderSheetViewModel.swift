@@ -10,6 +10,8 @@ import Foundation
 @Observable
 class OrderSheetViewModel {
     var orderSheetModel: OrderSheetModel?
+    var list: [Item] = []
+    var arrivalLocation: String?
     
     func loadData(completion: @escaping (Result<OrderSheetModel, Error>) -> Void) {
         guard let url = Bundle.main.url(forResource: "starbucksData", withExtension: "geojson") else {
@@ -26,6 +28,16 @@ class OrderSheetViewModel {
         } catch {
             print("디코딩 실패: \(error.localizedDescription)")
             completion(.failure(error))
+        }
+    }
+    
+    func filterData(keyword: String) {
+        list.removeAll()
+        if let model = orderSheetModel {
+            let filterArray = model.features.filter { (item) -> Bool in
+                return item.properties.storeName.contains(keyword)
+            }
+            self.list = filterArray
         }
     }
 }

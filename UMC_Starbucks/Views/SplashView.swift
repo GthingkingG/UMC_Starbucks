@@ -21,6 +21,7 @@ struct SplashView: View {
         .background(Color.green01)
         .task {
             try? await Task.sleep(nanoseconds: 2_500_000_000)
+            keychain.deleteUserInfo()
             if keychain.load(key: "Starbucks_One", service: "com.MyApp.login") == nil {
                 appFlowViewModel.changeAppState(.login)
             } else {

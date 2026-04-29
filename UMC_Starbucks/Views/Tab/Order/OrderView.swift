@@ -49,7 +49,9 @@ struct OrderView: View {
         HStack(spacing: 0) {
             ForEach(TopSegment.allCases, id: \.self) { segment in
                 Button(action: {
-                    currentIndex = segment.index
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        currentIndex = segment.index
+                    }
                 }, label: {
                     if segment.isCake {
                         VStack {
