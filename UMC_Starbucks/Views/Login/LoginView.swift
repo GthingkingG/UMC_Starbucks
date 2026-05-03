@@ -138,12 +138,17 @@ struct LoginView: View {
         }
     }
     
+    @MainActor
     func kakaoLogin() {
         if UserApi.isKakaoTalkLoginAvailable() {
+            print("카카오")
             UserApi.shared.loginWithKakaoTalk { oauthToken, error in
                 if let error = error {
                     print("에러: \(error)")
                 }
+                
+                appFlowViewModel.changeAppState(.tab)
+                
                 print("카카오톡 로그인 success")
                 UserApi.shared.me { user, error in
                     if let error = error {
